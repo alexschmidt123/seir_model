@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/83f22013f9d04ac585003079ffaf4b95/artifacts
+end_time: 1727242791187
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 83f22013f9d04ac585003079ffaf4b95
+run_name: hilarious-tern-632
+run_uuid: 83f22013f9d04ac585003079ffaf4b95
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727242791077
+status: 3
+tags: []
+user_id: gaoming
