@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/669b9b22be0c4414acb863f138825118/artifacts
+end_time: 1727374209985
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 669b9b22be0c4414acb863f138825118
+run_name: respected-conch-803
+run_uuid: 669b9b22be0c4414acb863f138825118
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727374209950
+status: 3
+tags: []
+user_id: gaoming

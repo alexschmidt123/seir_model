@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/bbedb4663de94d05a88a45df6251bc4f/artifacts
+end_time: 1727372719274
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: bbedb4663de94d05a88a45df6251bc4f
+run_name: exultant-gnat-66
+run_uuid: bbedb4663de94d05a88a45df6251bc4f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727372719241
+status: 3
+tags: []
+user_id: gaoming

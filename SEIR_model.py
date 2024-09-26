@@ -12,15 +12,14 @@ from pyro.contrib.util import lexpand, rexpand
 from pyro.poutine.util import prune_subsample_sites
 import pyro
 import pyro.distributions as dist
-from pyro.poutine import trace, replay, block, condition
 from tqdm import trange
+
 import mlflow
 import mlflow.pytorch
 
 from neural.modules import (
     SetEquivariantDesignNetwork,
     BatchDesignBaseline,
-    LazyDelta,
 )
 
 from oed.primitives import observation_sample, compute_design
@@ -32,154 +31,231 @@ from contrastive.mi import (
     PriorContrastiveEstimationDiscreteObsTotalEnum,
 )
 
+
 from extra_distributions.truncated_normal import LowerTruncatedNormal
 
+
 class EncoderNetwork(nn.Module):
-    def __init__(self, design_dim, observation_dim, hidden_dim, encoding_dim, n_hidden_layers=2, activation=nn.Softplus):
+    def __init__(
+        self,
+        design_dim,
+        observation_dim,
+        hidden_dim,
+        encoding_dim,
+        n_hidden_layers=2,
+        activation=nn.Softplus,
+    ):
         super().__init__()
         self.encoding_dim = encoding_dim
         self.activation_layer = activation()
         self.input_layer = nn.Linear(design_dim + observation_dim, hidden_dim)
-        self.middle = nn.Sequential(*[nn.Sequential(nn.Linear(hidden_dim, hidden_dim), activation()) for _ in range(n_hidden_layers - 1)]) if n_hidden_layers > 1 else nn.Identity()
+        if n_hidden_layers > 1:
+            self.middle = nn.Sequential(
+                *[
+                    nn.Sequential(nn.Linear(hidden_dim, hidden_dim), activation())
+                    for _ in range(n_hidden_layers - 1)
+                ]
+            )
+        else:
+            self.middle = nn.Identity()
         self.output_layer = nn.Linear(hidden_dim, encoding_dim)
 
-    def forward(self, xi, y):
-        inputs = torch.cat([xi.expand_as(y), y], dim=-1)
-        x = self.activation_layer(self.input_layer(inputs))
+    def forward(self, xi, y, **kwargs):
+        inputs = torch.cat([xi, y], dim=-1)
+        x = self.input_layer(inputs)
+        x = self.activation_layer(x)
         x = self.middle(x)
-        return self.output_layer(x)
+        x = self.output_layer(x)
+        return x
+
 
 class EmitterNetwork(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim, n_hidden_layers=2, activation=nn.Softplus):
+    def __init__(
+        self,
+        input_dim,
+        hidden_dim,
+        output_dim,
+        n_hidden_layers=2,
+        activation=nn.Softplus,
+    ):
         super().__init__()
         self.activation_layer = activation()
         self.input_layer = nn.Linear(input_dim, hidden_dim)
-        self.middle = nn.Sequential(*[nn.Sequential(nn.Linear(hidden_dim, hidden_dim), activation()) for _ in range(n_hidden_layers - 1)]) if n_hidden_layers > 1 else nn.Identity()
+        if n_hidden_layers > 1:
+            self.middle = nn.Sequential(
+                *[
+                    nn.Sequential(nn.Linear(hidden_dim, hidden_dim), activation())
+                    for _ in range(n_hidden_layers - 1)
+                ]
+            )
+        else:
+            self.middle = nn.Identity()
         self.output_layer = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, r):
-        x = self.activation_layer(self.input_layer(r))
+        x = self.input_layer(r)
+        x = self.activation_layer(x)
         x = self.middle(x)
-        return self.output_layer(x)
+        x = self.output_layer(x)
+        return x
 
-class SEIR_SDE_Model(nn.Module):
-    """Model class for SEIR SDE experiment."""
 
-    def __init__(self, design_net, beta=None, sigma=None, gamma=None, N=50, T=2):
+def seir_simulation(beta, sigma, gamma, initial_values, N, dt, T):
+    num_steps = int(T / dt)
+    S, E, I, R = initial_values
+
+    S = torch.tensor([S], dtype=torch.float32)
+    E = torch.tensor([E], dtype=torch.float32)
+    I = torch.tensor([I], dtype=torch.float32)
+    R = torch.tensor([R], dtype=torch.float32)
+
+    S_values, E_values, I_values, R_values = [], [], [], []
+
+    for _ in range(num_steps):
+        dS = (-beta * S * I / N) * dt
+        dE = (beta * S * I / N - sigma * E) * dt
+        dI = (sigma * E - gamma * I) * dt
+        dR = (gamma * I) * dt
+
+        dS = dS.unsqueeze(-1)
+        dE = dE.unsqueeze(-1)
+        dI = dI.unsqueeze(-1)
+        dR = dR.unsqueeze(-1)
+
+        batch_size = S.shape[0]
+
+        g_S = torch.zeros(batch_size, 4)
+        g_S[:, 0] = -torch.sqrt(beta * S * I / N).squeeze(-1)
+
+        g_E = torch.zeros(batch_size, 4)
+        g_E[:, 0] = torch.sqrt(beta * S * I / N).squeeze(-1)
+        g_E[:, 1] = -torch.sqrt(sigma * E).squeeze(-1)
+
+        g_I = torch.zeros(batch_size, 4)
+        g_I[:, 1] = torch.sqrt(sigma * E).squeeze(-1)
+        g_I[:, 2] = -torch.sqrt(gamma * I).squeeze(-1)
+
+        g_R = torch.zeros(batch_size, 4)
+        g_R[:, 2] = torch.sqrt(gamma * I).squeeze(-1)
+
+        dW = torch.randn(4, 1) * torch.sqrt(torch.tensor(dt))
+
+        S = S + dS + (g_S @ dW).squeeze(-1)
+        E = E + dE + (g_E @ dW).squeeze(-1)
+        I = I + dI + (g_I @ dW).squeeze(-1)
+        R = R + dR + (g_R @ dW).squeeze(-1)
+
+        S_values.append(S.item())
+        E_values.append(E.item())
+        I_values.append(I.item())
+        R_values.append(R.item())
+
+    return S_values, E_values, I_values, R_values
+
+
+class SEIRSDEModel(nn.Module):
+    def __init__(
+        self,
+        design_net,
+        beta,
+        sigma,
+        gamma,
+        initial_values,
+        N=50,
+        T=2,
+        dt=1.0,
+        theta_loc=None,
+        theta_scale=None,
+        theta_dist="truncated normal",
+    ):
         super().__init__()
-        # SEIR model parameters
         self.design_net = design_net
-        self.beta = beta if beta is not None else torch.tensor(0.3)  # Default transmission rate
-        self.sigma = sigma if sigma is not None else torch.tensor(0.1)  # Default exposed to infected rate
-        self.gamma = gamma if gamma is not None else torch.tensor(0.1)  # Default recovery rate
-        self.N = N  # Number of people
-        self.T = T  # Total time steps
+        self.beta = beta
+        self.sigma = sigma
+        self.gamma = gamma
+        self.initial_values = initial_values
+        self.N = N
+        self.T = T
+        self.dt = dt
+        self.theta_loc = theta_loc if theta_loc is not None else torch.tensor([beta, sigma, gamma])
+        self.theta_scale = theta_scale if theta_scale is not None else torch.tensor([0.1, 0.1, 0.1])
+        self.theta_dist = theta_dist
+        if theta_dist == "truncated normal":
+            self.theta_prior_dist = LowerTruncatedNormal(
+                self.theta_loc, self.theta_scale, 0.0
+            )
+        elif theta_dist == "lognormal":
+            self.theta_prior_dist = dist.LogNormal(self.theta_loc, self.theta_scale)
+        else:
+            raise ValueError("Invalid option: `theta_dist`=%s." % theta_dist)
         self.softplus = nn.Softplus()
-
-    def seir_simulation(self, initial_values, dt):
-        # Calculate the number of steps based on total time T and time step dt
-        num_steps = int(self.T / dt)
-
-        # Unpack initial values
-        S, E, I, R = initial_values
-
-        # Initialize tensors for S, E, I, R
-        S = torch.tensor([S], dtype=torch.float32)
-        E = torch.tensor([E], dtype=torch.float32)
-        I = torch.tensor([I], dtype=torch.float32)
-        R = torch.tensor([R], dtype=torch.float32)
-
-        # Store the results over time
-        S_values, E_values, I_values, R_values = [], [], [], []
-
-        for _ in range(num_steps):
-            # Deterministic components of SEIR model
-            dS = (-self.beta * S * I / self.N) * dt
-            dE = (self.beta * S * I / self.N - self.sigma * E) * dt
-            dI = (self.sigma * E - self.gamma * I) * dt
-            dR = (self.gamma * I) * dt
-
-            # Ensure the shapes are consistent
-            dS = dS.unsqueeze(-1)
-            dE = dE.unsqueeze(-1)
-            dI = dI.unsqueeze(-1)
-            dR = dR.unsqueeze(-1)
-
-            # Batch size handling (single batch in this case)
-            batch_size = S.shape[0]
-
-            # Initialize the diffusion terms for each component
-            g_S = torch.zeros(batch_size, 4)
-            g_S[:, 0] = -torch.sqrt(self.beta * S * I / self.N).squeeze(-1)  # g_SS component
-
-            g_E = torch.zeros(batch_size, 4)
-            g_E[:, 0] = torch.sqrt(self.beta * S * I / self.N).squeeze(-1)  # g_ES component
-            g_E[:, 1] = -torch.sqrt(self.sigma * E).squeeze(-1)        # g_EE component
-
-            g_I = torch.zeros(batch_size, 4)
-            g_I[:, 1] = torch.sqrt(self.sigma * E).squeeze(-1)         # g_IE component
-            g_I[:, 2] = -torch.sqrt(self.gamma * I).squeeze(-1)        # g_II component
-
-            g_R = torch.zeros(batch_size, 4)
-            g_R[:, 2] = torch.sqrt(self.gamma * I).squeeze(-1)         # g_RI component
-
-            # Sample Wiener process increments (4, 1)
-            dW = torch.randn(4, 1) * torch.sqrt(torch.tensor(dt))
-
-            # Apply the stochastic updates according to the SDEs
-            S = S + dS + (g_S @ dW).squeeze(-1)
-            E = E + dE + (g_E @ dW).squeeze(-1)
-            I = I + dI + (g_I @ dW).squeeze(-1)
-            R = R + dR + (g_R @ dW).squeeze(-1)
-
-            # Store results
-            S_values.append(S.item())
-            E_values.append(E.item())
-            I_values.append(I.item())
-            R_values.append(R.item())
-
-        return S_values, E_values, I_values, R_values
 
     def model(self):
         if hasattr(self.design_net, "parameters"):
             pyro.module("design_net", self.design_net)
 
-        # Initial values for S, E, I, R
-        initial_values = (self.N - 1, 0, 1, 0)  # Start with 1 infected, rest susceptible
-        dt = 0.1  # Set a default time step for simulation
-        
-        # Call the SEIR simulation method
-        y_outcomes = self.seir_simulation(initial_values, dt)
+        theta = pyro.sample("theta", self.theta_prior_dist)
+        theta = theta.clamp(min=1e-10, max=1e10)
+
+        beta, sigma, gamma = theta
+
+        y_outcomes = []
+        xi_designs = []
+
+        for t in range(self.T):
+            xi = compute_design(
+                f"xi{t + 1}", self.design_net.lazy(*zip(xi_designs, y_outcomes))
+            )
+            xi = self.softplus(xi.squeeze(-1))
+
+            S_values, E_values, I_values, R_values = seir_simulation(
+                beta=beta, sigma=sigma, gamma=gamma,
+                initial_values=self.initial_values, N=self.N, dt=self.dt, T=self.T
+            )
+
+            y = observation_sample(f"y{t + 1}", dist.Normal(I_values[-1], 0.1))
+            y_outcomes.append(y)
+            xi_designs.append(xi)
 
         return y_outcomes
 
-    def eval(self, n_trace=2):
+    def eval(self, n_trace=2, theta=None):
         self.design_net.eval()
+        if theta is not None:
+            model = pyro.condition(self.model, data={"theta": theta})
+        else:
+            model = self.model
         output = []
         with torch.no_grad():
             for i in range(n_trace):
-                trace = pyro.poutine.trace(self.model).get_trace()
+                trace = pyro.poutine.trace(model).get_trace()
+                true_theta = trace.nodes["theta"]["value"].numpy()
+                run_xis = []
+                run_ys = []
 
-                # Extract the results from the trace
-                S = trace.nodes["S"]["value"].item()
-                E = trace.nodes["E"]["value"].item()
-                I = trace.nodes["I"]["value"].item()
-                R = trace.nodes["R"]["value"].item()
+                for t in range(self.T):
+                    xi = trace.nodes[f"xi{t + 1}"]["value"].item()
+                    run_xis.append(xi)
 
-                run_df = pd.DataFrame({
-                    "S": S,
-                    "E": E,
-                    "I": I,
-                    "R": R,
-                    "run_id": i + 1
-                })
+                    y = trace.nodes[f"y{t + 1}"]["value"].item()
+                    run_ys.append(y)
+
+                run_df = pd.DataFrame(
+                    {
+                        "designs": run_xis,
+                        "observations": run_ys,
+                        "order": list(range(1, self.T + 1)),
+                    }
+                )
+                run_df["run_id"] = i + 1
+                run_df["theta"] = true_theta
                 output.append(run_df)
 
         return pd.concat(output)
 
     def rollout(self, n_rollout, grid):
         self.design_net.eval()
-        
+
         grid_size = grid.shape[0]
 
         def vectorized_model():
@@ -188,91 +264,184 @@ class SEIR_SDE_Model(nn.Module):
 
         with torch.no_grad():
             trace = pyro.poutine.trace(vectorized_model).get_trace()
-            # Using a fixed value for theta as an example; adjust based on your model logic
             trace.nodes["theta"]["value"] = torch.tensor([1.50], device=trace.nodes["theta"]["value"].device)
-            trace = pyro.poutine.prune(trace)
+            trace = prune_subsample_sites(trace)
             trace.compute_log_prob()
 
             data = {
-                name: node["value"].expand(grid_size) 
+                name: lexpand(node["value"], grid_size)
                 for name, node in trace.nodes.items()
                 if node.get("subtype") in ["observation_sample", "design_sample"]
             }
-            data["theta"] = grid.expand(n_rollout, -1)  # Expand grid for theta
+            data["theta"] = rexpand(grid, n_rollout)
 
             def conditional_model():
                 with pyro.plate_stack("vectorization", (grid_size, n_rollout)):
                     pyro.condition(self.model, data=data)()
 
             condition_trace = pyro.poutine.trace(conditional_model).get_trace()
-            condition_trace = pyro.poutine.prune(condition_trace)
+            condition_trace = prune_subsample_sites(condition_trace)
             condition_trace.compute_log_prob()
 
         return condition_trace
 
+# Replace the incorrect call with the correct one
+# Assuming the OED class only requires two arguments now:
+# (model function and scheduler)
+
 def single_run(
-    seed, num_steps, num_inner_samples, num_outer_samples, lr, gamma_val, T, N, device, hidden_dim, encoding_dim, num_layers, arch, complete_enum, mlflow_experiment_name, beta, sigma, gamma, initial_values
+    seed,
+    num_steps,
+    num_inner_samples,
+    num_outer_samples,
+    lr,
+    gamma,
+    T,
+    N,
+    beta,
+    sigma,
+    gamma_val,
+    initial_values,
+    dt,
+    device,
+    hidden_dim,
+    encoding_dim,
+    num_layers,
+    arch,
+    complete_enum,
+    mlflow_experiment_name,
 ):
+
     pyro.clear_param_store()
     seed = auto_seed(seed)
     pyro.set_rng_seed(seed)
     mlflow.set_experiment(mlflow_experiment_name)
+
     mlflow.log_param("seed", seed)
+    mlflow.log_param("num_experiments", T)
+    mlflow.log_param("lr", lr)
+    mlflow.log_param("hidden_dim", hidden_dim)
+    mlflow.log_param("encoding_dim", encoding_dim)
+    mlflow.log_param("num_layers", num_layers)
+    mlflow.log_param("gamma", gamma)
+    mlflow.log_param("complete_enum", gamma)
+    mlflow.log_param("arch", arch)
+    mlflow.log_param("num_steps", num_steps)
+    mlflow.log_param("num_inner_samples", num_inner_samples)
+    mlflow.log_param("num_outer_samples", num_outer_samples)
 
     if arch == "static":
-        design_net = BatchDesignBaseline(T, 4).to(device)
-    elif arch == "sum":
-        encoder = EncoderNetwork(4, 4, hidden_dim, encoding_dim, n_hidden_layers=num_layers)
-        emitter = EmitterNetwork(encoding_dim, hidden_dim, 4, n_hidden_layers=num_layers)
-        design_net = SetEquivariantDesignNetwork(encoder, emitter, empty_value=torch.ones(4)).to(device)
+        design_net = BatchDesignBaseline(T, 3).to(device)
     else:
-        raise ValueError(f"Unexpected architecture specification: '{arch}'.")
+        encoder = EncoderNetwork(
+            3, 1, hidden_dim, encoding_dim, n_hidden_layers=num_layers
+        )
+        emitter = EmitterNetwork(
+            encoding_dim, hidden_dim, 3, n_hidden_layers=num_layers
+        )
 
-    seir_process = SEIR_SDE_Model(
+        if arch == "sum":
+            design_net = SetEquivariantDesignNetwork(
+                encoder, emitter, empty_value=torch.ones(3)
+            ).to(device)
+        else:
+            raise ValueError(f"Unexpected architecture specification: '{arch}'.")
+
+    theta_prior_loc = torch.tensor([beta, sigma, gamma_val], device=device)
+    theta_prior_scale = torch.tensor([0.1, 0.1, 0.1], device=device)
+    seir_sde_model = SEIRSDEModel(
         design_net=design_net,
         beta=beta,
         sigma=sigma,
-        gamma=gamma,
-        N=N,
-        dt=0.1,
-        T=T,
-        num_inner_samples=num_inner_samples,
-        num_outer_samples=num_outer_samples,
+        gamma=gamma_val,
         initial_values=initial_values,
+        N=N,
+        T=T,
+        dt=dt,
+        theta_loc=theta_prior_loc,
+        theta_scale=theta_prior_scale,
     )
 
     optimizer = torch.optim.Adam
-    scheduler = pyro.optim.ExponentialLR({"optimizer": optimizer, "optim_args": {"lr": lr}, "gamma": gamma_val})
+    scheduler = pyro.optim.ExponentialLR(
+        {
+            "optimizer": optimizer,
+            "optim_args": {"lr": lr, "betas": [0.9, 0.999], "weight_decay": 0,},
+            "gamma": gamma,
+        }
+    )
+    
+    # Modify this line to pass the correct arguments
+    oed = OED(seir_sde_model.model, scheduler)  # Assuming OED now takes 2 arguments
+
     loss_history = []
     t = trange(1, num_steps + 1, desc="Loss: 0.000 ")
     for i in t:
-        loss = OED.step(seir_process.model)
+        loss = oed.step()
+        loss = torch_item(loss)
+        t.set_description("Loss: {:.3f} ".format(loss))
         loss_history.append(loss)
+        if i % 50 == 0:
+            mlflow.log_metric("loss", oed.evaluate_loss())
+        if i % 1000 == 0:
+            scheduler.step()
 
-    return loss_history
+    mlflow.log_metric(
+        "loss_diff50", np.mean(loss_history[-51:-1]) / np.mean(loss_history[0:50]) - 1
+    )
+
+    runs_output = seir_sde_model.eval()
+    results = {
+        "design_network": design_net.cpu(),
+        "seed": seed,
+        "loss_history": loss_history,
+        "runs_output": runs_output,
+    }
+
+    print("Storing model to MlFlow... ", end="")
+    mlflow.pytorch.log_model(seir_sde_model.cpu(), "model")
+    ml_info = mlflow.active_run().info
+    model_loc = f"mlruns/{ml_info.experiment_id}/{ml_info.run_id}/artifacts/model"
+    print(f"Model stored in {model_loc}.")
+
+    print(f"Run completed {mlflow.active_run().info.artifact_uri}.")
+    print(f"The experiment-id of this run is {ml_info.experiment_id}")
+
+    return results
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Deep Adaptive Design example: SEIR SDE Model.")
+    parser = argparse.ArgumentParser(
+        description="Deep Adaptive Design example: SEIR SDE Model."
+    )
     parser.add_argument("--seed", default=-1, type=int)
-    parser.add_argument("--num-steps", default=100, type=int)
-    parser.add_argument("--num-inner-samples", default=50, type=int)
-    parser.add_argument("--num-outer-samples", default=50, type=int)
+    parser.add_argument("--num-steps", default=5000, type=int)
+    parser.add_argument("--num-inner-samples", default=100, type=int)
+    parser.add_argument("--num-outer-samples", default=200, type=int)
     parser.add_argument("--lr", default=0.001, type=float)
-    parser.add_argument("--gamma_val", default=0.95, type=float)
-    parser.add_argument("--num-experiments", default=4, type=int)  # == T
-    parser.add_argument("--num-people", default=1000, type=int)  # == N
+    parser.add_argument("--gamma", default=0.95, type=float)
+    parser.add_argument("--num-experiments", default=4, type=int)
+    parser.add_argument("--num-people", default=50, type=int)
+    parser.add_argument("--beta", default=0.3, type=float)
+    parser.add_argument("--sigma", default=0.1, type=float)
+    parser.add_argument("--gamma-val", default=0.1, type=float)
+    parser.add_argument("--initial-values", default=[0.99, 0.01, 0.0, 0.0], nargs=4, type=float)
+    parser.add_argument("--dt", default=1.0, type=float)
     parser.add_argument("--device", default="cpu", type=str)
     parser.add_argument("--hidden-dim", default=128, type=int)
     parser.add_argument("--encoding-dim", default=16, type=int)
     parser.add_argument("--complete-enum", default=False, type=bool)
-    parser.add_argument("--num-layers", default=2, type=int, help="Number of hidden layers.")
-    parser.add_argument("--arch", default="sum", type=str, help="Architecture", choices=["static", "sum", "variational"])
+    parser.add_argument(
+        "--num-layers", default=2, type=int, help="Number of hidden layers."
+    )
+    parser.add_argument(
+        "--arch",
+        default="sum",
+        type=str,
+        help="Architecture",
+        choices=["static", "sum", "filter"],
+    )
     parser.add_argument("--mlflow-experiment-name", default="Default", type=str)
-    parser.add_argument("--beta", default=0.3, type=float, help="Transmission rate")
-    parser.add_argument("--sigma", default=0.1, type=float, help="Rate from E to I")
-    parser.add_argument("--gamma", default=0.1, type=float, help="Recovery rate")
-    parser.add_argument("--initial_values", nargs=4, type=int, default=[999, 0, 1, 0], help="Initial values for S, E, I, R")
-
     args = parser.parse_args()
 
     single_run(
@@ -281,18 +450,19 @@ if __name__ == "__main__":
         num_inner_samples=args.num_inner_samples,
         num_outer_samples=args.num_outer_samples,
         lr=args.lr,
-        gamma_val=args.gamma_val,
+        gamma=args.gamma,
         device=args.device,
         T=args.num_experiments,
         N=args.num_people,
+        beta=args.beta,
+        sigma=args.sigma,
+        gamma_val=args.gamma_val,
+        initial_values=args.initial_values,
+        dt=args.dt,
         hidden_dim=args.hidden_dim,
         encoding_dim=args.encoding_dim,
         num_layers=args.num_layers,
         arch=args.arch,
         complete_enum=args.complete_enum,
         mlflow_experiment_name=args.mlflow_experiment_name,
-        beta=args.beta,
-        sigma=args.sigma,
-        gamma=args.gamma,
-        initial_values=args.initial_values,
     )

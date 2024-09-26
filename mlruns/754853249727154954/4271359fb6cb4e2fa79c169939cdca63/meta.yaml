@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/4271359fb6cb4e2fa79c169939cdca63/artifacts
+end_time: 1727374120455
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 4271359fb6cb4e2fa79c169939cdca63
+run_name: abrasive-hog-434
+run_uuid: 4271359fb6cb4e2fa79c169939cdca63
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727374120422
+status: 3
+tags: []
+user_id: gaoming
