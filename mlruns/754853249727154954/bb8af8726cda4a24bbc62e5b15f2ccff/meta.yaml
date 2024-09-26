@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/bb8af8726cda4a24bbc62e5b15f2ccff/artifacts
+end_time: 1727369181062
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: bb8af8726cda4a24bbc62e5b15f2ccff
+run_name: bouncy-newt-505
+run_uuid: bb8af8726cda4a24bbc62e5b15f2ccff
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727369181057
+status: 3
+tags: []
+user_id: g.lin

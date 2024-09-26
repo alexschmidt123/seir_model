@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/ad96dea33b2d430ea7923be9e7f19502/artifacts
+end_time: 1727368995513
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: ad96dea33b2d430ea7923be9e7f19502
+run_name: suave-sheep-333
+run_uuid: ad96dea33b2d430ea7923be9e7f19502
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727368995506
+status: 3
+tags: []
+user_id: g.lin
