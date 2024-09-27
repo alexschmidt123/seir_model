@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/e48ba61439084e2d9b2d04bada8b3c25/artifacts
+end_time: 1727405418726
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: e48ba61439084e2d9b2d04bada8b3c25
+run_name: funny-lark-384
+run_uuid: e48ba61439084e2d9b2d04bada8b3c25
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727405418689
+status: 3
+tags: []
+user_id: gaoming

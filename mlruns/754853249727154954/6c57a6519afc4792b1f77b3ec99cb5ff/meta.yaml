@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/6c57a6519afc4792b1f77b3ec99cb5ff/artifacts
+end_time: 1727403951941
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 6c57a6519afc4792b1f77b3ec99cb5ff
+run_name: handsome-elk-506
+run_uuid: 6c57a6519afc4792b1f77b3ec99cb5ff
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727403951877
+status: 3
+tags: []
+user_id: gaoming

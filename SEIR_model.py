@@ -31,7 +31,6 @@ from contrastive.mi import (
     PriorContrastiveEstimationDiscreteObsTotalEnum,
 )
 
-
 from extra_distributions.truncated_normal import LowerTruncatedNormal
 
 
@@ -61,6 +60,12 @@ class EncoderNetwork(nn.Module):
         self.output_layer = nn.Linear(hidden_dim, encoding_dim)
 
     def forward(self, xi, y, **kwargs):
+        if xi.dim() == 0:
+            xi = xi.unsqueeze(0)
+    
+        # Flatten y (4*(T/dt)) into a 1D tensor
+        y = y.view(-1)
+
         inputs = torch.cat([xi, y], dim=-1)
         x = self.input_layer(inputs)
         x = self.activation_layer(x)
@@ -111,7 +116,12 @@ def seir_simulation(beta, sigma, gamma, initial_values, N, dt, T):
 
     S_values, E_values, I_values, R_values = [], [], [], []
 
-    for _ in range(num_steps):
+    for step in range(num_steps):
+        S = S.clamp(min=1e-6)
+        E = E.clamp(min=1e-6)
+        I = I.clamp(min=1e-6)
+        R = R.clamp(min=1e-6)
+
         dS = (-beta * S * I / N) * dt
         dE = (beta * S * I / N - sigma * E) * dt
         dI = (sigma * E - gamma * I) * dt
@@ -145,6 +155,11 @@ def seir_simulation(beta, sigma, gamma, initial_values, N, dt, T):
         I = I + dI + (g_I @ dW).squeeze(-1)
         R = R + dR + (g_R @ dW).squeeze(-1)
 
+        # Debugging output
+        if torch.isnan(S).any() or torch.isnan(E).any() or torch.isnan(I).any() or torch.isnan(R).any():
+            print(f"Step {step}: S={S.item()}, E={E.item()}, I={I.item()}, R={R.item()}")
+            raise ValueError("NaN detected in SEIR simulation values.")
+
         S_values.append(S.item())
         E_values.append(E.item())
         I_values.append(I.item())
@@ -154,6 +169,7 @@ def seir_simulation(beta, sigma, gamma, initial_values, N, dt, T):
 
 
 class SEIRSDEModel(nn.Module):
+
     def __init__(
         self,
         design_net,
@@ -161,9 +177,9 @@ class SEIRSDEModel(nn.Module):
         sigma,
         gamma,
         initial_values,
-        N=50,
-        T=2,
-        dt=1.0,
+        N,
+        T,
+        dt,
         theta_loc=None,
         theta_scale=None,
         theta_dist="truncated normal",
@@ -190,6 +206,36 @@ class SEIRSDEModel(nn.Module):
             raise ValueError("Invalid option: `theta_dist`=%s." % theta_dist)
         self.softplus = nn.Softplus()
 
+        if hasattr(self.design_net, "parameters"):
+            pyro.module("design_net", self.design_net)
+
+        self.y_outcomes = []
+        self.xi_designs = []
+
+        theta = pyro.sample("theta", self.theta_prior_dist)
+        theta = theta.clamp(min=1e-10, max=1e10)
+
+        beta, sigma, gamma = theta
+
+        for t in range(self.T):
+            xi = compute_design(
+                f"xi{t + 1}", self.design_net.lazy(*zip(self.xi_designs, self.y_outcomes))
+            )
+            xi = self.softplus(xi.squeeze(-1))
+
+            S_values, E_values, I_values, R_values = seir_simulation(
+                beta=beta, sigma=sigma, gamma=gamma,
+                initial_values=self.initial_values, N=self.N, dt=self.dt, T=self.T
+            )
+
+            # Convert I_values[-1] to a tensor before checking for NaN
+            if torch.isnan(torch.tensor(I_values[-1])):
+                raise ValueError(f"NaN detected in I_values[-1] at time {t}")
+
+            y = observation_sample(f"y{t + 1}", dist.Normal(I_values[-1], 0.1))
+            self.y_outcomes.append(y)
+            self.xi_designs.append(xi)
+
     def model(self):
         if hasattr(self.design_net, "parameters"):
             pyro.module("design_net", self.design_net)
@@ -199,7 +245,7 @@ class SEIRSDEModel(nn.Module):
 
         beta, sigma, gamma = theta
 
-        y_outcomes = []
+        y_outcomes = []  # To store S, E, I, and optionally R values for each time step
         xi_designs = []
 
         for t in range(self.T):
@@ -208,26 +254,35 @@ class SEIRSDEModel(nn.Module):
             )
             xi = self.softplus(xi.squeeze(-1))
 
+            # Simulate the SEIR model
             S_values, E_values, I_values, R_values = seir_simulation(
                 beta=beta, sigma=sigma, gamma=gamma,
                 initial_values=self.initial_values, N=self.N, dt=self.dt, T=self.T
             )
 
+            # Store the S, E, I, and optionally R values for this time step
+            y_outcomes.append((S_values[-1], E_values[-1], I_values[-1], R_values[-1]))
+
+            # Generate observation for I values
             y = observation_sample(f"y{t + 1}", dist.Normal(I_values[-1], 0.1))
-            y_outcomes.append(y)
             xi_designs.append(xi)
+
+        # Convert y_outcomes to a 4 x (T/dt) matrix
+        y_outcomes = torch.stack([torch.tensor(outcome) for outcome in y_outcomes], dim=1)
 
         return y_outcomes
 
+
     def eval(self, n_trace=2, theta=None):
         self.design_net.eval()
-        if theta is not None:
-            model = pyro.condition(self.model, data={"theta": theta})
-        else:
-            model = self.model
+        
         output = []
         with torch.no_grad():
             for i in range(n_trace):
+                if theta is not None:
+                    model = pyro.condition(self.model, data={"theta": theta})
+                else:
+                    model = self.model
                 trace = pyro.poutine.trace(model).get_trace()
                 true_theta = trace.nodes["theta"]["value"].numpy()
                 run_xis = []
@@ -285,22 +340,18 @@ class SEIRSDEModel(nn.Module):
 
         return condition_trace
 
-# Replace the incorrect call with the correct one
-# Assuming the OED class only requires two arguments now:
-# (model function and scheduler)
-
 def single_run(
     seed,
     num_steps,
     num_inner_samples,
     num_outer_samples,
     lr,
-    gamma,
+    gamma_val,  # Optimization parameter for learning rate scheduler
     T,
     N,
     beta,
     sigma,
-    gamma_val,
+    gamma,  # SEIR model recovery rate
     initial_values,
     dt,
     device,
@@ -323,37 +374,38 @@ def single_run(
     mlflow.log_param("hidden_dim", hidden_dim)
     mlflow.log_param("encoding_dim", encoding_dim)
     mlflow.log_param("num_layers", num_layers)
-    mlflow.log_param("gamma", gamma)
-    mlflow.log_param("complete_enum", gamma)
+    mlflow.log_param("gamma_val", gamma_val)  # Logging the optimization parameter
+    mlflow.log_param("complete_enum", complete_enum)
     mlflow.log_param("arch", arch)
     mlflow.log_param("num_steps", num_steps)
     mlflow.log_param("num_inner_samples", num_inner_samples)
     mlflow.log_param("num_outer_samples", num_outer_samples)
 
+    # Set up the design network based on the architecture choice
     if arch == "static":
         design_net = BatchDesignBaseline(T, 3).to(device)
-    else:
+    elif arch == "sum":
         encoder = EncoderNetwork(
-            3, 1, hidden_dim, encoding_dim, n_hidden_layers=num_layers
+            design_dim=3, observation_dim=1, hidden_dim=hidden_dim, 
+            encoding_dim=encoding_dim, n_hidden_layers=num_layers
         )
         emitter = EmitterNetwork(
-            encoding_dim, hidden_dim, 3, n_hidden_layers=num_layers
+            input_dim=encoding_dim, hidden_dim=hidden_dim, output_dim=3, 
+            n_hidden_layers=num_layers
         )
+        design_net = SetEquivariantDesignNetwork(
+            encoder, emitter, empty_value=torch.ones(3)
+        ).to(device)
+    else:
+        raise ValueError(f"Unexpected architecture specification: '{arch}'.")
 
-        if arch == "sum":
-            design_net = SetEquivariantDesignNetwork(
-                encoder, emitter, empty_value=torch.ones(3)
-            ).to(device)
-        else:
-            raise ValueError(f"Unexpected architecture specification: '{arch}'.")
-
-    theta_prior_loc = torch.tensor([beta, sigma, gamma_val], device=device)
+    theta_prior_loc = torch.tensor([beta, sigma, gamma], device=device)
     theta_prior_scale = torch.tensor([0.1, 0.1, 0.1], device=device)
     seir_sde_model = SEIRSDEModel(
         design_net=design_net,
         beta=beta,
         sigma=sigma,
-        gamma=gamma_val,
+        gamma=gamma,
         initial_values=initial_values,
         N=N,
         T=T,
@@ -367,12 +419,21 @@ def single_run(
         {
             "optimizer": optimizer,
             "optim_args": {"lr": lr, "betas": [0.9, 0.999], "weight_decay": 0,},
-            "gamma": gamma,
+            "gamma": gamma_val,  # Used for learning rate decay
         }
     )
     
-    # Modify this line to pass the correct arguments
-    oed = OED(seir_sde_model.model, scheduler)  # Assuming OED now takes 2 arguments
+    if complete_enum:
+        pce_loss = PriorContrastiveEstimationDiscreteObsTotalEnum(
+            num_outer_samples, num_inner_samples
+        )
+    else:
+        pce_loss = PriorContrastiveEstimationScoreGradient(
+            num_outer_samples, num_inner_samples
+        )
+    
+    # Ensure correct number of arguments passed to OED
+    oed = OED(seir_sde_model.model, scheduler, pce_loss)
 
     loss_history = []
     t = trange(1, num_steps + 1, desc="Loss: 0.000 ")
@@ -415,17 +476,17 @@ if __name__ == "__main__":
         description="Deep Adaptive Design example: SEIR SDE Model."
     )
     parser.add_argument("--seed", default=-1, type=int)
-    parser.add_argument("--num-steps", default=5000, type=int)
-    parser.add_argument("--num-inner-samples", default=100, type=int)
-    parser.add_argument("--num-outer-samples", default=200, type=int)
+    parser.add_argument("--num_steps", default=5000, type=int)
+    parser.add_argument("--num_inner_samples", default=100, type=int)
+    parser.add_argument("--num_outer_samples", default=200, type=int)
     parser.add_argument("--lr", default=0.001, type=float)
-    parser.add_argument("--gamma", default=0.95, type=float)
-    parser.add_argument("--num-experiments", default=4, type=int)
-    parser.add_argument("--num-people", default=50, type=int)
-    parser.add_argument("--beta", default=0.3, type=float)
-    parser.add_argument("--sigma", default=0.1, type=float)
-    parser.add_argument("--gamma-val", default=0.1, type=float)
-    parser.add_argument("--initial-values", default=[0.99, 0.01, 0.0, 0.0], nargs=4, type=float)
+    parser.add_argument("--gamma_val", default=0.95, type=float)  # Optimization parameter
+    parser.add_argument("--num_experiments", default=4, type=int)
+    parser.add_argument("--beta", default=0.3, type=float)  # SEIR model parameter
+    parser.add_argument("--sigma", default=0.1, type=float)  # SEIR model parameter
+    parser.add_argument("--gamma", default=0.1, type=float)  # SEIR model parameter
+    parser.add_argument("--num_people", default=100, type=int)
+    parser.add_argument("--initial_values", default=[99, 1, 0, 0], nargs=4, type=float)
     parser.add_argument("--dt", default=1.0, type=float)
     parser.add_argument("--device", default="cpu", type=str)
     parser.add_argument("--hidden-dim", default=128, type=int)
@@ -439,7 +500,7 @@ if __name__ == "__main__":
         default="sum",
         type=str,
         help="Architecture",
-        choices=["static", "sum", "filter"],
+        choices=["static", "sum"],
     )
     parser.add_argument("--mlflow-experiment-name", default="Default", type=str)
     args = parser.parse_args()
@@ -450,13 +511,13 @@ if __name__ == "__main__":
         num_inner_samples=args.num_inner_samples,
         num_outer_samples=args.num_outer_samples,
         lr=args.lr,
-        gamma=args.gamma,
+        gamma_val=args.gamma_val,  # Pass as optimization parameter
         device=args.device,
         T=args.num_experiments,
         N=args.num_people,
         beta=args.beta,
         sigma=args.sigma,
-        gamma_val=args.gamma_val,
+        gamma=args.gamma,  # Pass as SEIR model parameter
         initial_values=args.initial_values,
         dt=args.dt,
         hidden_dim=args.hidden_dim,

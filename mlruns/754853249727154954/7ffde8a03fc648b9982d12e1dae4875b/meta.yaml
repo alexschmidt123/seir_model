@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/7ffde8a03fc648b9982d12e1dae4875b/artifacts
+end_time: 1727404342270
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 7ffde8a03fc648b9982d12e1dae4875b
+run_name: languid-doe-870
+run_uuid: 7ffde8a03fc648b9982d12e1dae4875b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727404342235
+status: 3
+tags: []
+user_id: gaoming

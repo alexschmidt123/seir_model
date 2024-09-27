@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/b8d2f626f90943b1a31092344b98a666/artifacts
+end_time: 1727402884809
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: b8d2f626f90943b1a31092344b98a666
+run_name: inquisitive-auk-591
+run_uuid: b8d2f626f90943b1a31092344b98a666
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727402884752
+status: 3
+tags: []
+user_id: gaoming

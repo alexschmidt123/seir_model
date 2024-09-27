@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/58eaa0f2b01048298de805dd1d04744e/artifacts
+end_time: 1727404526613
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 58eaa0f2b01048298de805dd1d04744e
+run_name: abundant-dolphin-304
+run_uuid: 58eaa0f2b01048298de805dd1d04744e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727404526577
+status: 3
+tags: []
+user_id: gaoming

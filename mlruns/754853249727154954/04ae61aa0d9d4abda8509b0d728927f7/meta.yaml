@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/Test_files/seir_model/mlruns/754853249727154954/04ae61aa0d9d4abda8509b0d728927f7/artifacts
+end_time: 1727405829173
+entry_point_name: ''
+experiment_id: '754853249727154954'
+lifecycle_stage: active
+run_id: 04ae61aa0d9d4abda8509b0d728927f7
+run_name: puzzled-carp-329
+run_uuid: 04ae61aa0d9d4abda8509b0d728927f7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727405829114
+status: 3
+tags: []
+user_id: gaoming
