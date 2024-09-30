@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/5d6a915dcef84e3cb89a81519d9b1f8a/artifacts
+end_time: 1727666773110
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 5d6a915dcef84e3cb89a81519d9b1f8a
+run_name: peaceful-steed-661
+run_uuid: 5d6a915dcef84e3cb89a81519d9b1f8a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727666772990
+status: 3
+tags: []
+user_id: gaoming

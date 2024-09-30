@@ -18,6 +18,7 @@ def sample_with_type(type_string, name, fn, *args, **kwargs):
         in kwargs. See inference documentation for details.
     :returns: sample
     """
+    print(f"Sampling at site '{name}' with type '{type_string}'")
     obs = kwargs.pop("obs", None)
     infer = kwargs.pop("infer", {}).copy()
     # check if stack is empty
@@ -29,7 +30,9 @@ def sample_with_type(type_string, name, fn, *args, **kwargs):
                 RuntimeWarning,
             )
             return obs
-        return fn(*args, **kwargs)
+        result = fn(*args, **kwargs)
+        print(f"Sampled value (outside inference): {result}")
+        return result
     # if stack not empty, apply everything in the stack?
     else:
         # initialize data structure to pass up/down the stack
@@ -56,6 +59,7 @@ def sample_with_type(type_string, name, fn, *args, **kwargs):
             msg["is_observed"] = True
         # apply the stack and return its return value
         apply_stack(msg)
+        print(f"Sampled value (in inference): {msg['value']}")
         return msg["value"]
 
 

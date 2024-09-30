@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/1b3fdeb999864d1890fa070d44b89c58/artifacts
+end_time: 1727441446067
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 1b3fdeb999864d1890fa070d44b89c58
+run_name: burly-shark-230
+run_uuid: 1b3fdeb999864d1890fa070d44b89c58
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727441446000
+status: 3
+tags: []
+user_id: gaoming

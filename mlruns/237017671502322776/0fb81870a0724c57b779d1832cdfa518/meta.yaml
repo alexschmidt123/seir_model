@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/0fb81870a0724c57b779d1832cdfa518/artifacts
+end_time: 1727674448000
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 0fb81870a0724c57b779d1832cdfa518
+run_name: casual-koi-518
+run_uuid: 0fb81870a0724c57b779d1832cdfa518
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727674447957
+status: 3
+tags: []
+user_id: gaoming

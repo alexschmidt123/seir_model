@@ -47,8 +47,18 @@ class SIR_SDE_Simulator(torch.autograd.Function):
             ).indices
         # extract number of infected from data
         ## Central difference
-        y = batch_data["ys"][1:-1][nearest, range(nearest.shape[0])].reshape(-1, 1)
+        print(f"nearest shape: {nearest.shape}, nearest max index: {nearest.max().item()}")
+        print(f"batch_data['ys'] shape: {batch_data['ys'].shape}")
 
+        # Verify second index (sample batch index)
+        sample_indices = torch.arange(batch_data["ys"].shape[1])  # This should range from 0 to 511 (512 samples)
+        print(f"Sample indices: {sample_indices.shape}, max index in samples: {sample_indices.max().item()}")
+
+
+        y = batch_data["ys"][1:-1][nearest, range(nearest.shape[0])].reshape(-1, 1)
+        # Print the shapes for debugging
+        print(f"xi tensor shape: {inputs.shape}")
+        print(f"y tensor shape: {y.shape}")
         # y = y.reshape(-1, 1)  # TODO: Make more general
         ctx.save_for_backward(inputs)
         ctx.device = device
@@ -595,14 +605,14 @@ def train_model(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="iDAD: SDE-Based SIR Model")
-    parser.add_argument("--num-steps", default=100000, type=int)
+    parser.add_argument("--num-steps", default=1000, type=int)
     parser.add_argument("--num-batch-samples", default=512, type=int)
     parser.add_argument("--num-negative-samples", default=511, type=int)
     parser.add_argument("--seed", default=-1, type=int)
     parser.add_argument("--lr", default=0.0005, type=float)
     parser.add_argument("--lr-critic", default=None, type=float)
     parser.add_argument("--gamma", default=0.96, type=float)
-    parser.add_argument("--device", default="cuda", type=str)
+    parser.add_argument("--device", default="cpu", type=str)
     parser.add_argument("--num-experiments", default=5, type=int)
     parser.add_argument("--hidden-dim", default=512, type=int)
     parser.add_argument("--encoding-dim", default=32, type=int)

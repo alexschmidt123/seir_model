@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/cb3272cada8f4fef89fa2da10076d349/artifacts
+end_time: 1727414374809
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: cb3272cada8f4fef89fa2da10076d349
+run_name: sneaky-lark-229
+run_uuid: cb3272cada8f4fef89fa2da10076d349
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727414374692
+status: 3
+tags: []
+user_id: gaoming

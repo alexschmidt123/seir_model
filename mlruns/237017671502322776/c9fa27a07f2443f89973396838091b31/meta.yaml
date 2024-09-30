@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/c9fa27a07f2443f89973396838091b31/artifacts
+end_time: 1727690077527
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: c9fa27a07f2443f89973396838091b31
+run_name: monumental-calf-775
+run_uuid: c9fa27a07f2443f89973396838091b31
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727690077484
+status: 3
+tags: []
+user_id: gaoming

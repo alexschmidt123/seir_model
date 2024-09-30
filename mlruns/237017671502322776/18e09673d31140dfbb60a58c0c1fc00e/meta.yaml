@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/18e09673d31140dfbb60a58c0c1fc00e/artifacts
+end_time: 1727666188963
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 18e09673d31140dfbb60a58c0c1fc00e
+run_name: indecisive-sow-781
+run_uuid: 18e09673d31140dfbb60a58c0c1fc00e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727666188831
+status: 3
+tags: []
+user_id: gaoming

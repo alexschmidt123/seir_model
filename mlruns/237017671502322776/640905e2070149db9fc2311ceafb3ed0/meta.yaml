@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/640905e2070149db9fc2311ceafb3ed0/artifacts
+end_time: 1727440820131
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 640905e2070149db9fc2311ceafb3ed0
+run_name: polite-sloth-404
+run_uuid: 640905e2070149db9fc2311ceafb3ed0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727440820064
+status: 3
+tags: []
+user_id: gaoming

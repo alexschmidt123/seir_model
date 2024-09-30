@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/ccf62795cf7a42faa97974fdeb408361/artifacts
+end_time: 1727412298408
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: ccf62795cf7a42faa97974fdeb408361
+run_name: nebulous-cow-762
+run_uuid: ccf62795cf7a42faa97974fdeb408361
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727412298282
+status: 3
+tags: []
+user_id: gaoming

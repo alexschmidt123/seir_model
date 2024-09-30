@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/a8d7a2b0ac124cecbee0936b2323bda5/artifacts
+end_time: 1727672029662
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: a8d7a2b0ac124cecbee0936b2323bda5
+run_name: brawny-lamb-670
+run_uuid: a8d7a2b0ac124cecbee0936b2323bda5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727672029584
+status: 3
+tags: []
+user_id: gaoming

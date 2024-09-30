@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/515efb62851a4274a23935aa4dc44977/artifacts
+end_time: 1727441368969
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 515efb62851a4274a23935aa4dc44977
+run_name: intelligent-elk-307
+run_uuid: 515efb62851a4274a23935aa4dc44977
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727441368897
+status: 3
+tags: []
+user_id: gaoming

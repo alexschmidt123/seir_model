@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/653d1130005d4f999322edf3dcd129cd/artifacts
+end_time: 1727412096711
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 653d1130005d4f999322edf3dcd129cd
+run_name: trusting-fish-336
+run_uuid: 653d1130005d4f999322edf3dcd129cd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727412096643
+status: 3
+tags: []
+user_id: gaoming

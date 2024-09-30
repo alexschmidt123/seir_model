@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/d7298d065a434197b190589ad197270e/artifacts
+end_time: 1727673595185
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: d7298d065a434197b190589ad197270e
+run_name: nosy-mouse-416
+run_uuid: d7298d065a434197b190589ad197270e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727673595145
+status: 3
+tags: []
+user_id: gaoming

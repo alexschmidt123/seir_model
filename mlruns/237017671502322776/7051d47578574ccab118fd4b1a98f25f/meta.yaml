@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/7051d47578574ccab118fd4b1a98f25f/artifacts
+end_time: 1727412234766
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 7051d47578574ccab118fd4b1a98f25f
+run_name: selective-sloth-626
+run_uuid: 7051d47578574ccab118fd4b1a98f25f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727412234703
+status: 3
+tags: []
+user_id: gaoming

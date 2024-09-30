@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/f9de31bb39f64626940ed9f05089cd5d/artifacts
+end_time: 1727441223262
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: f9de31bb39f64626940ed9f05089cd5d
+run_name: exultant-snail-566
+run_uuid: f9de31bb39f64626940ed9f05089cd5d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727441223195
+status: 3
+tags: []
+user_id: gaoming

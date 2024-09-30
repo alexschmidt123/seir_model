@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/c35bf8c925b04b098eca8b8596b303dd/artifacts
+end_time: 1727412577750
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: c35bf8c925b04b098eca8b8596b303dd
+run_name: rumbling-moose-94
+run_uuid: c35bf8c925b04b098eca8b8596b303dd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727412577591
+status: 3
+tags: []
+user_id: gaoming

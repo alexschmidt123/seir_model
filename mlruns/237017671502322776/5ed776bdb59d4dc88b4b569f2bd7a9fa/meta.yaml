@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/5ed776bdb59d4dc88b4b569f2bd7a9fa/artifacts
+end_time: 1727663720885
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 5ed776bdb59d4dc88b4b569f2bd7a9fa
+run_name: peaceful-carp-194
+run_uuid: 5ed776bdb59d4dc88b4b569f2bd7a9fa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727663720772
+status: 3
+tags: []
+user_id: gaoming

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/e266061bd5c549d4a7bbfe20a2eac25c/artifacts
+end_time: 1727666690736
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: e266061bd5c549d4a7bbfe20a2eac25c
+run_name: traveling-fowl-4
+run_uuid: e266061bd5c549d4a7bbfe20a2eac25c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727666690603
+status: 3
+tags: []
+user_id: gaoming

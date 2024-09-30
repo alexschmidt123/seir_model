@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/2474418f5f9f4d93b6111172430b9bc0/artifacts
+end_time: 1727664696670
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 2474418f5f9f4d93b6111172430b9bc0
+run_name: honorable-mouse-925
+run_uuid: 2474418f5f9f4d93b6111172430b9bc0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727664613065
+status: 3
+tags: []
+user_id: gaoming

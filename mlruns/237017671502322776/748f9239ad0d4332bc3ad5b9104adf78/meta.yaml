@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/748f9239ad0d4332bc3ad5b9104adf78/artifacts
+end_time: 1727413315240
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 748f9239ad0d4332bc3ad5b9104adf78
+run_name: indecisive-dove-993
+run_uuid: 748f9239ad0d4332bc3ad5b9104adf78
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727413315063
+status: 3
+tags: []
+user_id: gaoming

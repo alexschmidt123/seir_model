@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/390e8143ca134e56a9bdb33f546a3d90/artifacts
+end_time: 1727411740234
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 390e8143ca134e56a9bdb33f546a3d90
+run_name: gifted-zebra-722
+run_uuid: 390e8143ca134e56a9bdb33f546a3d90
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727411740173
+status: 3
+tags: []
+user_id: gaoming

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/afff20c202aa4ab99d627d302391bb1d/artifacts
+end_time: 1727411268763
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: afff20c202aa4ab99d627d302391bb1d
+run_name: puzzled-crow-187
+run_uuid: afff20c202aa4ab99d627d302391bb1d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727411268695
+status: 3
+tags: []
+user_id: gaoming

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/ee882c8312bf4cbbb936258a8a6f6a8d/artifacts
+end_time: 1727690327106
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: ee882c8312bf4cbbb936258a8a6f6a8d
+run_name: bouncy-wren-170
+run_uuid: ee882c8312bf4cbbb936258a8a6f6a8d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727690327010
+status: 3
+tags: []
+user_id: gaoming

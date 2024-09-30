@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/d79692256b294af5a6e4c04006e7c50d/artifacts
+end_time: 1727667156634
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: d79692256b294af5a6e4c04006e7c50d
+run_name: inquisitive-bass-960
+run_uuid: d79692256b294af5a6e4c04006e7c50d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727667156513
+status: 3
+tags: []
+user_id: gaoming

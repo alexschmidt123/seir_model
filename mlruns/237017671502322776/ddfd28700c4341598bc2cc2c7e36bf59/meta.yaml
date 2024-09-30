@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/ddfd28700c4341598bc2cc2c7e36bf59/artifacts
+end_time: 1727661028284
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: ddfd28700c4341598bc2cc2c7e36bf59
+run_name: bustling-midge-907
+run_uuid: ddfd28700c4341598bc2cc2c7e36bf59
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727660930345
+status: 3
+tags: []
+user_id: gaoming

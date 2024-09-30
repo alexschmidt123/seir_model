@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/c668071ad2994700afbb12e02b8ada5c/artifacts
+end_time: 1727413491492
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: c668071ad2994700afbb12e02b8ada5c
+run_name: fortunate-rook-611
+run_uuid: c668071ad2994700afbb12e02b8ada5c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727413491456
+status: 3
+tags: []
+user_id: gaoming

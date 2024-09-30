@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/9b330970cc2348caa72cd0efad3571e8/artifacts
+end_time: 1727688646897
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 9b330970cc2348caa72cd0efad3571e8
+run_name: funny-auk-988
+run_uuid: 9b330970cc2348caa72cd0efad3571e8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727688646805
+status: 3
+tags: []
+user_id: gaoming

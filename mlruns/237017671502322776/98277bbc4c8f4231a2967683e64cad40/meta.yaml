@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/98277bbc4c8f4231a2967683e64cad40/artifacts
+end_time: 1727412711360
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 98277bbc4c8f4231a2967683e64cad40
+run_name: mysterious-shark-502
+run_uuid: 98277bbc4c8f4231a2967683e64cad40
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727412711175
+status: 3
+tags: []
+user_id: gaoming

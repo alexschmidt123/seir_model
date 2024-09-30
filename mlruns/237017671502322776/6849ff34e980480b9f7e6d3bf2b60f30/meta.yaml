@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/6849ff34e980480b9f7e6d3bf2b60f30/artifacts
+end_time: 1727667618335
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 6849ff34e980480b9f7e6d3bf2b60f30
+run_name: upbeat-bird-861
+run_uuid: 6849ff34e980480b9f7e6d3bf2b60f30
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727667618213
+status: 3
+tags: []
+user_id: gaoming

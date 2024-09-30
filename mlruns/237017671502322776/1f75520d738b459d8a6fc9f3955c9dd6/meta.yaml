@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/1f75520d738b459d8a6fc9f3955c9dd6/artifacts
+end_time: 1727440356479
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 1f75520d738b459d8a6fc9f3955c9dd6
+run_name: carefree-fox-411
+run_uuid: 1f75520d738b459d8a6fc9f3955c9dd6
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727440356413
+status: 3
+tags: []
+user_id: gaoming

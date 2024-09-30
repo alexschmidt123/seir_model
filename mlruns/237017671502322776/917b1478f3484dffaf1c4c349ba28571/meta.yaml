@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/917b1478f3484dffaf1c4c349ba28571/artifacts
+end_time: 1727673329364
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 917b1478f3484dffaf1c4c349ba28571
+run_name: useful-jay-530
+run_uuid: 917b1478f3484dffaf1c4c349ba28571
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727673329298
+status: 3
+tags: []
+user_id: gaoming

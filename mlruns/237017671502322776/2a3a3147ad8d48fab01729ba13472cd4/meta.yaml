@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/2a3a3147ad8d48fab01729ba13472cd4/artifacts
+end_time: 1727666038445
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 2a3a3147ad8d48fab01729ba13472cd4
+run_name: grandiose-hog-90
+run_uuid: 2a3a3147ad8d48fab01729ba13472cd4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727666038325
+status: 3
+tags: []
+user_id: gaoming

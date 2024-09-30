@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/73f20457d80346289ef176d23535f32b/artifacts
+end_time: 1727510322471
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 73f20457d80346289ef176d23535f32b
+run_name: peaceful-hound-224
+run_uuid: 73f20457d80346289ef176d23535f32b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727510322426
+status: 3
+tags: []
+user_id: gaoming

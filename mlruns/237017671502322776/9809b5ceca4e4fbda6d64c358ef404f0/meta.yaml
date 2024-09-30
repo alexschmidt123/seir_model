@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/9809b5ceca4e4fbda6d64c358ef404f0/artifacts
+end_time: 1727661286840
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 9809b5ceca4e4fbda6d64c358ef404f0
+run_name: dapper-tern-878
+run_uuid: 9809b5ceca4e4fbda6d64c358ef404f0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727661286664
+status: 3
+tags: []
+user_id: gaoming

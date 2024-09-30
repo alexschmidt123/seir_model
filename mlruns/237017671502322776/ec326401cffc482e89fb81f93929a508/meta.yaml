@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/ec326401cffc482e89fb81f93929a508/artifacts
+end_time: 1727668243097
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: ec326401cffc482e89fb81f93929a508
+run_name: grandiose-snail-104
+run_uuid: ec326401cffc482e89fb81f93929a508
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727668158358
+status: 3
+tags: []
+user_id: gaoming

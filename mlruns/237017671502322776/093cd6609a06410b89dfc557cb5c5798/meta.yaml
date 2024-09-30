@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/093cd6609a06410b89dfc557cb5c5798/artifacts
+end_time: 1727411375556
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 093cd6609a06410b89dfc557cb5c5798
+run_name: secretive-lark-227
+run_uuid: 093cd6609a06410b89dfc557cb5c5798
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727411375491
+status: 3
+tags: []
+user_id: gaoming

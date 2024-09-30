@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/b2783da387694a1a918a342a283fd23b/artifacts
+end_time: 1727667498984
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: b2783da387694a1a918a342a283fd23b
+run_name: clean-dolphin-32
+run_uuid: b2783da387694a1a918a342a283fd23b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727667498857
+status: 3
+tags: []
+user_id: gaoming

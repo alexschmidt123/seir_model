@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/23ed71f8195a4cfd806af9e30bc3c2a3/artifacts
+end_time: 1727665249254
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 23ed71f8195a4cfd806af9e30bc3c2a3
+run_name: victorious-hound-441
+run_uuid: 23ed71f8195a4cfd806af9e30bc3c2a3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727665249108
+status: 3
+tags: []
+user_id: gaoming

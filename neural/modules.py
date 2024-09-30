@@ -199,15 +199,36 @@ class Mlp(nn.Module):
             self.output_layer = nn.Linear(hidden_dim[-1], self.output_dim_flat)
 
     def forward(self, x, y=None, **kwargs):
+        # Debugging: Print shapes of inputs
+        print(f"Shape of x before flattening: {x.shape}")
+        if y is not None:
+            print(f"Shape of y: {y.shape}")
+        
         inputs = self._prepare_input(x, y)
+        # Ensure that inputs have the correct shape (512, 6)
+        
+        # Debugging: Print shape after input preparation
+        print(f"Shape of inputs after preparation: {inputs.shape}")
+
         x = self.linear1(inputs)
+
+        # Debugging: Print shape after first linear layer
+        print(f"Shape of x after linear1: {x.shape}")
+        
         x = self.bn1(x)
         x = self.activation(x)
         x = self.middle(x)
+
+        # Debugging: Print shape after middle layers
+        print(f"Shape of x after middle: {x.shape}")
+
         x = self.output_layer(x)
+
+        # Debugging: Print shape after output layer
+        print(f"Shape of x after output_layer: {x.shape}")
+
         x = self.output_activation(x)
         return self._prepare_output(x)
-
 
 ##### Self-attention arch from NPF project:
 """ https://github.com/YannDubs/Neural-Process-Family/blob/master/npf/architectures/attention.py """

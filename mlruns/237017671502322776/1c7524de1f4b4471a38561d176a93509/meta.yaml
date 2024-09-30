@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/1c7524de1f4b4471a38561d176a93509/artifacts
+end_time: 1727669628359
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 1c7524de1f4b4471a38561d176a93509
+run_name: upbeat-ram-793
+run_uuid: 1c7524de1f4b4471a38561d176a93509
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727669628161
+status: 3
+tags: []
+user_id: gaoming

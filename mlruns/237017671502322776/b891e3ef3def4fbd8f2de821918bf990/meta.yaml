@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/b891e3ef3def4fbd8f2de821918bf990/artifacts
+end_time: 1727511229306
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: b891e3ef3def4fbd8f2de821918bf990
+run_name: enthused-cat-103
+run_uuid: b891e3ef3def4fbd8f2de821918bf990
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727511146634
+status: 3
+tags: []
+user_id: gaoming

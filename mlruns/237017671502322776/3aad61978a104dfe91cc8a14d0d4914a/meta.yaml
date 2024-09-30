@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/3aad61978a104dfe91cc8a14d0d4914a/artifacts
+end_time: 1727413603771
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 3aad61978a104dfe91cc8a14d0d4914a
+run_name: rogue-croc-184
+run_uuid: 3aad61978a104dfe91cc8a14d0d4914a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727413603659
+status: 3
+tags: []
+user_id: gaoming

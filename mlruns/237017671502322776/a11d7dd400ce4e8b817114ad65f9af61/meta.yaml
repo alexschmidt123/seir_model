@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/a11d7dd400ce4e8b817114ad65f9af61/artifacts
+end_time: 1727667702902
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: a11d7dd400ce4e8b817114ad65f9af61
+run_name: intrigued-hare-508
+run_uuid: a11d7dd400ce4e8b817114ad65f9af61
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727667702752
+status: 3
+tags: []
+user_id: gaoming

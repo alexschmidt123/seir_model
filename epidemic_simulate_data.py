@@ -117,8 +117,8 @@ def solve_sir_sdes(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Epidemic: solve SIR equations")
-    parser.add_argument("--num-samples", default=100000, type=int)
-    parser.add_argument("--device", default="cuda", type=str)
+    parser.add_argument("--num-samples", default=1000, type=int)
+    parser.add_argument("--device", default="cpu", type=str)
 
     if not os.path.exists("data"):
         os.makedirs("data")

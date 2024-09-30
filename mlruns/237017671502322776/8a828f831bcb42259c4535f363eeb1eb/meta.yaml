@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/8a828f831bcb42259c4535f363eeb1eb/artifacts
+end_time: 1727689956114
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 8a828f831bcb42259c4535f363eeb1eb
+run_name: crawling-hen-721
+run_uuid: 8a828f831bcb42259c4535f363eeb1eb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727689956024
+status: 3
+tags: []
+user_id: gaoming

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/01c8d1ffed3f40348a389250fb540427/artifacts
+end_time: 1727690665117
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 01c8d1ffed3f40348a389250fb540427
+run_name: luxuriant-fish-336
+run_uuid: 01c8d1ffed3f40348a389250fb540427
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727690665020
+status: 3
+tags: []
+user_id: gaoming

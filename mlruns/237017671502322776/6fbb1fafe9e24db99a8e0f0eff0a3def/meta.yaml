@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/6fbb1fafe9e24db99a8e0f0eff0a3def/artifacts
+end_time: 1727690706195
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 6fbb1fafe9e24db99a8e0f0eff0a3def
+run_name: efficient-pig-790
+run_uuid: 6fbb1fafe9e24db99a8e0f0eff0a3def
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727690706156
+status: 3
+tags: []
+user_id: gaoming

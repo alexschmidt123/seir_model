@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/f0df455b6a934bacb4da6257821e7180/artifacts
+end_time: 1727413712673
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: f0df455b6a934bacb4da6257821e7180
+run_name: handsome-newt-46
+run_uuid: f0df455b6a934bacb4da6257821e7180
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727413712515
+status: 3
+tags: []
+user_id: gaoming

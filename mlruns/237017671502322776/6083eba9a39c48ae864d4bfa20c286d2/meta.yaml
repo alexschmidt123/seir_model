@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/6083eba9a39c48ae864d4bfa20c286d2/artifacts
+end_time: 1727668011958
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 6083eba9a39c48ae864d4bfa20c286d2
+run_name: rumbling-swan-962
+run_uuid: 6083eba9a39c48ae864d4bfa20c286d2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727668011838
+status: 3
+tags: []
+user_id: gaoming

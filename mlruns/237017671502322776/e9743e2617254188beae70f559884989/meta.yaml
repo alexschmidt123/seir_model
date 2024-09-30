@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/e9743e2617254188beae70f559884989/artifacts
+end_time: 1727442057672
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: e9743e2617254188beae70f559884989
+run_name: awesome-goose-743
+run_uuid: e9743e2617254188beae70f559884989
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727442057602
+status: 3
+tags: []
+user_id: gaoming

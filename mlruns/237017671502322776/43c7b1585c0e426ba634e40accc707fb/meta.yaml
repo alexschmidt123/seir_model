@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/43c7b1585c0e426ba634e40accc707fb/artifacts
+end_time: 1727441315662
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 43c7b1585c0e426ba634e40accc707fb
+run_name: resilient-turtle-323
+run_uuid: 43c7b1585c0e426ba634e40accc707fb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727441315591
+status: 3
+tags: []
+user_id: gaoming

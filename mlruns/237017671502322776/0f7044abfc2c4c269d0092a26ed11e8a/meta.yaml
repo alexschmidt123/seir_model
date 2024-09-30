@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/0f7044abfc2c4c269d0092a26ed11e8a/artifacts
+end_time: 1727440065404
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 0f7044abfc2c4c269d0092a26ed11e8a
+run_name: kindly-grub-509
+run_uuid: 0f7044abfc2c4c269d0092a26ed11e8a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727440065332
+status: 3
+tags: []
+user_id: gaoming

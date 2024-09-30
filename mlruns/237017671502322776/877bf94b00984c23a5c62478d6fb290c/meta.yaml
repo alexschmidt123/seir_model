@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/877bf94b00984c23a5c62478d6fb290c/artifacts
+end_time: 1727441637770
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 877bf94b00984c23a5c62478d6fb290c
+run_name: unruly-pug-483
+run_uuid: 877bf94b00984c23a5c62478d6fb290c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727441637693
+status: 3
+tags: []
+user_id: gaoming

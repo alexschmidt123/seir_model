@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/7b9402212a374ce2b2ac273242c94625/artifacts
+end_time: 1727412398335
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 7b9402212a374ce2b2ac273242c94625
+run_name: rogue-jay-578
+run_uuid: 7b9402212a374ce2b2ac273242c94625
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727412398264
+status: 3
+tags: []
+user_id: gaoming

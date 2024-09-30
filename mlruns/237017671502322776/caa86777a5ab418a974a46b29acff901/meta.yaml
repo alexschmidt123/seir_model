@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/caa86777a5ab418a974a46b29acff901/artifacts
+end_time: 1727672177084
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: caa86777a5ab418a974a46b29acff901
+run_name: secretive-donkey-672
+run_uuid: caa86777a5ab418a974a46b29acff901
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727672176990
+status: 3
+tags: []
+user_id: gaoming

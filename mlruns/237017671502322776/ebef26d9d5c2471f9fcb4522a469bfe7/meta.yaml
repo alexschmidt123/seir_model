@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/ebef26d9d5c2471f9fcb4522a469bfe7/artifacts
+end_time: 1727439057171
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: ebef26d9d5c2471f9fcb4522a469bfe7
+run_name: capricious-bass-513
+run_uuid: ebef26d9d5c2471f9fcb4522a469bfe7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727439057026
+status: 3
+tags: []
+user_id: gaoming

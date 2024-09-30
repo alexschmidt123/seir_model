@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/cd289b67ad82460fbad355922690281f/artifacts
+end_time: 1727440167140
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: cd289b67ad82460fbad355922690281f
+run_name: invincible-grub-46
+run_uuid: cd289b67ad82460fbad355922690281f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727440167071
+status: 3
+tags: []
+user_id: gaoming

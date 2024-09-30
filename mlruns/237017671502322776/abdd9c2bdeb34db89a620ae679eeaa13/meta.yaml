@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/abdd9c2bdeb34db89a620ae679eeaa13/artifacts
+end_time: 1727437906138
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: abdd9c2bdeb34db89a620ae679eeaa13
+run_name: glamorous-moose-809
+run_uuid: abdd9c2bdeb34db89a620ae679eeaa13
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727437906012
+status: 3
+tags: []
+user_id: gaoming

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/09a4740b12b2470a897e0ad56c81f058/artifacts
+end_time: 1727672768750
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 09a4740b12b2470a897e0ad56c81f058
+run_name: unique-midge-836
+run_uuid: 09a4740b12b2470a897e0ad56c81f058
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727672768678
+status: 3
+tags: []
+user_id: gaoming

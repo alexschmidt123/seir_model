@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/9b861c6c01e6421fac937c112e124247/artifacts
+end_time: 1727411163046
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 9b861c6c01e6421fac937c112e124247
+run_name: carefree-rook-682
+run_uuid: 9b861c6c01e6421fac937c112e124247
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727411162968
+status: 3
+tags: []
+user_id: gaoming

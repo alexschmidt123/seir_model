@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/73cbf4f91a024f30a0fcff9ffbb3cd91/artifacts
+end_time: 1727672510854
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 73cbf4f91a024f30a0fcff9ffbb3cd91
+run_name: gifted-gull-288
+run_uuid: 73cbf4f91a024f30a0fcff9ffbb3cd91
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727672510777
+status: 3
+tags: []
+user_id: gaoming

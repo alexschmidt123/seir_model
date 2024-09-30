@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gaoming/Documents/Research/Codes/seir_model/mlruns/237017671502322776/7a22d78a12a64667952ea37066d65f6a/artifacts
+end_time: 1727665793366
+entry_point_name: ''
+experiment_id: '237017671502322776'
+lifecycle_stage: active
+run_id: 7a22d78a12a64667952ea37066d65f6a
+run_name: bright-skink-624
+run_uuid: 7a22d78a12a64667952ea37066d65f6a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727665706588
+status: 3
+tags: []
+user_id: gaoming
